@@ -41,6 +41,8 @@
 " 01/27/05 - added sleep to consume less CPU
 "            removed frame counter
 " 01/26/05 - initial version
+"
+" This script is released under MIT license, see license.txt
 
 
 " Speed range, must be positive.  Lower delay = faster.
