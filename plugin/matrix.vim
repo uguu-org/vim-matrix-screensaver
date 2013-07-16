@@ -260,6 +260,9 @@ endfunction
 function! s:Cleanup()
    " Restore options
    if has('gui')
+      " restore default before user settings as user may have set an
+      " incomplete options that relyed on the default
+      set gcr&
       let &gcr = s:o_gcr
       let &go = s:o_go
       unlet s:o_gcr s:o_go
