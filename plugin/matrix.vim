@@ -1,53 +1,17 @@
-" matrix.vim - Don Yang (uguu.org)
+" Matrix Screensaver for VIM
 "
-" Matrix screensaver for VIM.
-"
-"Usage:
-" After loading the script, use :Matrix to start.
-" Press any key a few times to exit.
-"
-" You will need to edit s:mindelay and s:maxdelay below to match your
-" machine speed and window size.
-"
-"Known Issues:
-" Sometimes you need to press keys a few times to exit instead of just
-" once.  Press and hold is another way to go... feels like getchar is
-" checking for keypress state instead of keystroke availability.
-"
-" If the window is too small, script will not run.  If the window is
-" resized and become too small (less than 8 rows or 10 columns) after
-" the script started, script will abort and *buffers may be lost*, so
-" don't do that.  Resizing the window to most other sizes will be fine.
-"
-" Doesn't work if multiple windows exist before script started.  In
-" that case the script will abort with error message.
-"
-" If the current buffer is modified, some error messages will appear
-" before the script starts, and an extra window is left behind after
-" the script exits.  Workaround: save your buffers first.
-"
-"Other Info:
-" Inspired by cmatrix...
-" Didn't feel inspired enough to start using pico/nano, of course ^_^;
-"
-" 05/13/08 - disable cursorline, cursorcolumn and spell
-"            (thanks to Diederick Niehorster for the suggestion).
-" 12/21/06 - multiwindow support by S. Lockwood-Childs.
-" 10/03/05 - added silent! to cursor positioning code to stop drawing
-"            numbers during animation (thanks to David Eggum for the
-"            suggestion).
-" 10/02/05 - disable showmatch
-" 03/16/05 - make new buffer modifiable before running
-" 01/27/05 - added sleep to consume less CPU
-"            removed frame counter
-" 01/26/05 - initial version
-"
-" This script is released under MIT license, see license.txt
+" Version:     1.10
+" 
 
 
 " Speed range, must be positive.  Lower delay = faster.
-let s:mindelay = 1
-let s:maxdelay = 5
+if !exists("g:matrix_mindelay")
+    let g:matrix_mindelay = 1
+endif
+
+if !exists("g:matrix_maxdelay")
+    let g:matrix_maxdelay = 5
+endif
 
 " Session file for preserving original window layout
 let s:session_file = tempname()
@@ -153,7 +117,8 @@ function! s:Reset()
    let i = 0
    while i < b:columns
       " Set delay time.  Each column gets the same delay time.
-      let b:s{i} = s:Rand() % (s:maxdelay - s:mindelay) + s:mindelay
+      let b:s{i} = s:Rand() % (g:matrix_maxdelay - g:matrix_mindelay) + 
+               \ g:matrix_mindelay
 
       " Unreserve column
       let b:reserve{i} = b:h

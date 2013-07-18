@@ -1,0 +1,103 @@
+*matrix.vim*   Matrix Screensaver for VIM
+
+                                              
+                 _____ _           ___  ___      _        _       ~
+                |_   _| |          |  \/  |     | |      (_)      ~
+                  | | | |__   ___  | .  . | __ _| |_ _ __ ___  __ ~
+                  | | | '_ \ / _ \ | |\/| |/ _` | __| '__| \ \/ / ~
+                  | | | | | |  __/ | |  | | (_| | |_| |  | |>  <  ~
+                  \_/ |_| |_|\___| \_|  |_/\__,_|\__|_|  |_/_/\_\ ~
+                                                 
+                                                 
+
+                                Reference Manual~
+
+
+==============================================================================
+CONTENTS                                                  *matrix-contents*
+
+    1.Usage...................................|matrix-usage|
+    2.Global Options..........................|matrix-global-options|
+    3.Issues..................................|matrix-issues|
+    4.About...................................|matrix-about|
+    5.License.................................|matrix-license|
+
+
+==============================================================================
+1. Usage                                                     *matrix-usage*
+
+:Matrix                                                         *:Matrix*
+
+After loading the script, use :Matrix to start.  Press any key a few times to
+exit.
+
+==============================================================================
+2. Global Options                                   *matrix-global-options*
+
+
+                                                            *'matrix_mindelay'*
+Default: 1
+                                                            *'matrix_maxdelay'*
+Default: 5
+
+Set these options to match your machine speed and window size.
+
+Example: >
+    let g:matrix_mindelay = 2
+    let g:matrix_maxdelay = 6
+<
+
+TODO: include more detailed information.
+
+
+==============================================================================
+3. Issues                                                    *matrix-issues*
+
+Sometimes you need to press keys a few times to exit instead of just once.
+Press and hold is another way to go... feels like getchar is checking for
+keypress state instead of keystroke availability.
+
+If the window is too small, script will not run.  If the window is resized and
+become too small (less than 8 rows or 10 columns) after the script started,
+script will abort and *buffers may be lost*, so don't do that.  Resizing the
+window to most other sizes will be fine.
+
+Doesn't work if multiple windows exist before script started.  In that case
+the script will abort with error message.
+
+If the current buffer is modified, some error messages will appear before the
+script starts, and an extra window is left behind after the script exits.
+Workaround: save your buffers first.
+
+==============================================================================
+4. About                                                     *matrix-about*
+
+Inspired by cmatrix...
+Didn't feel inspired enough to start using pico/nano, of course ^_^;
+
+ 05/13/08 - disable cursorline, cursorcolumn and spell
+            (thanks to Diederick Niehorster for the suggestion).
+ 12/21/06 - multiwindow support by S. Lockwood-Childs.
+ 10/03/05 - added silent! to cursor positioning code to stop drawing
+            numbers during animation (thanks to David Eggum for the
+            suggestion).
+ 10/02/05 - disable showmatch
+ 03/16/05 - make new buffer modifiable before running
+ 01/27/05 - added sleep to consume less CPU
+            removed frame counter
+ 01/26/05 - initial version
+
+
+The core maintainer of matrix is:
+    Don Yang (github: uguu-org)
+
+Find the latest version of matrix here:
+    http://github.com/uguu-org/vim-matrix-screensaver
+
+==============================================================================
+5. License                                                 *matrix-license*
+
+matrix is released under MIT license, see |license.txt|.
+
+
+ vim:tw=78:sw=4:ft=help:norl:
