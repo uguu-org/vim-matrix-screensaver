@@ -3,10 +3,18 @@
 " Version:     1.10
 " 
 
+if exists("g:loaded_matrix")
+   finish
+endif
+let g:loaded_matrix = 1
+
+let s:keepcpo = &cpo
+set cpo&vim
 
 if !has('virtualedit') || !has('windows') || !has('syntax')
    echohl ErrorMsg
-   echon 'Not enough features, need at least +virtualedit, +windows and +syntax'
+   echon 'Not enough features, need at least +virtualedit, +windows and
+            \ +syntax'
    echohl None
    finish
 endif
@@ -54,17 +62,21 @@ function! s:DrawObject(i)
    " Draw head
    if y <= b:h
       if b:head{a:i}
-         silent! exec 'norm! :' . y . nr2char(13) . x . '|R' . b:d[s:Rand()%b:dl] . '_' . nr2char(27)
+         silent! exec 'norm! :' . y . nr2char(13) . x . '|R' . 
+                  \ b:d[s:Rand()%b:dl] . '_' . nr2char(27)
          if y > 1
-            silent! exec 'norm! kR' . ((s:Rand() % 2) ? '`' : ' ') . nr2char(27)
+            silent! exec 'norm! kR' . ((s:Rand() % 2) ? '`' : ' ') . 
+                     \ nr2char(27)
          endif
       else
          let a = ((s:Rand() % 2) ? '`' : ' ') . nr2char(27)
-         silent! exec 'norm! :'. y . nr2char(13) . x . '|R' . b:d[s:Rand() % b:dl] . a
+         silent! exec 'norm! :'. y . nr2char(13) . x . '|R' . 
+                  \ b:d[s:Rand() % b:dl] . a
       endif
    else
       if b:head{a:i} && y == b:h + 1
-         silent! exec 'norm! :' . b:h . nr2char(13) . (x + 1) . '|R' . ((s:Rand() % 2) ? '`' : ' ') . nr2char(27)
+         silent! exec 'norm! :' . b:h . nr2char(13) . (x + 1) . '|R' . 
+                  \ ((s:Rand() % 2) ? '`' : ' ') . nr2char(27)
       endif
    endif
 
@@ -296,3 +308,5 @@ function! matrix#Matrix()
 endfunction
 
 
+let &cpo= s:keepcpo
+unlet s:keepcpo
