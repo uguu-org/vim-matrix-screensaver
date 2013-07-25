@@ -287,8 +287,6 @@ function! s:Cleanup()
 endfunction
 
 function! matrix#Matrix()
-   echo 'Matrix!'
-   return
    if s:Init()
       echohl ErrorMsg
       echon 'Can not create window'
