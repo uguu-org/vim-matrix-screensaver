@@ -155,25 +155,14 @@ function! s:Reset()
 endfunction
 
 function! s:Init()
-   " Create new buffer and hide the existing buffers.  Hiding the
-   " existing buffers without switching to a new buffer preserves
-   " undo history.
-   exec 'mksession! ' . s:session_file
-   let s:num_orig_win = winnr("$")
-
-   " move to top window, so created window will become window 1,
-   " then attempt to create new window
-   1 wincmd w
-   silent! new
-
-   " check that there really is an additional window
-   if winnr("$") != s:num_orig_win + 1
+   " Create new tab page to avoid changing existing buffers/windows
+   let num_orig_tab = tabpagenr()
+   silent! tabe
+   " check that there really is an additional tab
+   if tabpagenr() != num_orig_tab + 1
       return 1
    endif
-   let s:newbuf = bufnr('%')
-
-   " close all but window 1, which is the new window
-   only
+   unlet num_orig_tab
 
    setl bh=delete bt=nofile ma nolist nonu noro noswf tw=0 nowrap
 
@@ -207,6 +196,8 @@ function! s:Init()
    let s:o_so = &so
    let s:o_ve = &ve
    set ch=1 ls=0 lz nosm nosmd siso=0 so=0 ve=all
+   let s:o_stal = &stal
+   set stal=0
 
    " Initialize PRNG
    let b:seed = localtime()
@@ -276,11 +267,11 @@ function! s:Cleanup()
    let &so = s:o_so
    let &ve = s:o_ve
    unlet s:o_ch s:o_ls s:o_lz s:o_siso s:o_sm s:o_smd s:o_so s:o_ve
+   let &stal = s:o_stal
+   unlet s:o_stal
 
-   " Restore old buffers
-   exec 'source ' . s:session_file
-   exec 'bwipe ' . s:newbuf
-   unlet s:newbuf
+   " Delete new tab
+   bd!
 
    " Clear keystroke
    let c = getchar(0)

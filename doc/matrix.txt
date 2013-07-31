@@ -62,13 +62,6 @@ become too small (less than 8 rows or 10 columns) after the script started,
 script will abort and *buffers may be lost*, so don't do that.  Resizing the
 window to most other sizes will be fine.
 
-Doesn't work if multiple windows exist before script started.  In that case
-the script will abort with error message.
-
-If the current buffer is modified, some error messages will appear before the
-script starts, and an extra window is left behind after the script exits.
-Workaround: save your buffers first.
-
 ==============================================================================
 4. About                                                     *matrix-about*
 
