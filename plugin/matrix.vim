@@ -6,5 +6,6 @@
 if exists("g:loaded_matrix")
    finish
 endif
-command! Matrix call matrix#Matrix()
+command! Matrix call matrix#Matrix('Full')
+command! MatrixSplit call matrix#Matrix('Split')
 

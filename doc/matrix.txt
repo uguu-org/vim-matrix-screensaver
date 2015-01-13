@@ -26,10 +26,15 @@ CONTENTS                                                  *matrix-contents*
 ==============================================================================
 1. Usage                                                     *matrix-usage*
 
-:Matrix                                                         *:Matrix*
+:Matrix                                                        *:Matrix*
 
-After loading the script, use :Matrix to start.  Press any key a few times to
-exit.
+After loading the script, use :Matrix to start the plugin full screen. Press
+any key a few times to exit.
+
+:MatrixSplit                                                   *:MatrixSplit*
+
+After loading the script, use :MatrixSplit to start the plugin using inside a
+Vim window. Press any key a few times to exit.
 
 ==============================================================================
 2. Global Options                                   *matrix-global-options*

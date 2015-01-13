@@ -154,15 +154,31 @@ function! s:Reset()
    endwhile
 endfunction
 
-function! s:Init()
-   " Create new tab page to avoid changing existing buffers/windows
-   let num_orig_tab = tabpagenr()
-   silent! tabe
-   " check that there really is an additional tab
-   if tabpagenr() != num_orig_tab + 1
+function! s:Init(type)
+   if a:type ==# 'Full'
+      " Create new tab page to avoid changing existing buffers/windows
+      let num_orig_tab = tabpagenr()
+      silent! tabe
+      " check that there really is an additional tab
+      if tabpagenr() != num_orig_tab + 1
+         return 1
+      endif
+      unlet num_orig_tab
+   elseif a:type ==# 'Split'
+      " Create new buffer and hide the existing buffers.  Hiding the
+      " existing buffers without switching to a new buffer preserves
+      " undo history.
+      let num_orig_win = winnr("$")
+      silent! new
+      silent wincmd _
+      " check that there really is an additional window
+      if winnr("$") != num_orig_win + 1
+         return 1
+      endif
+      unlet num_orig_win
+   else
       return 1
    endif
-   unlet num_orig_tab
 
    setl bh=delete bt=nofile ma nolist nonu noro noswf tw=0 nowrap
 
@@ -277,8 +293,8 @@ function! s:Cleanup()
    let c = getchar(0)
 endfunction
 
-function! matrix#Matrix()
-   if s:Init()
+function! matrix#Matrix(type)
+   if s:Init(a:type)
       echohl ErrorMsg
       echon 'Can not create window'
       echohl None
