@@ -7,6 +7,6 @@ http://www.vim.org/scripts/script.php?script_id=1189
 https://github.com/uguu-org/vim-matrix-screensaver
 
 Usage:
-1. Source matrix.vim
+1. vim -S matrix.vim
 2. Execute :Matrix to start
 3. Press any key a few times to exit
