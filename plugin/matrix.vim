@@ -30,6 +30,8 @@
 " Inspired by cmatrix...
 " Didn't feel inspired enough to start using pico/nano, of course ^_^;
 "
+" 05/08/20 - disable auto commands when running for better performance
+" 05/08/20 - increase maxdelay for more varied output
 " 05/13/08 - disable cursorline, cursorcolumn and spell
 "            (thanks to Diederick Niehorster for the suggestion).
 " 12/21/06 - multiwindow support by S. Lockwood-Childs.
@@ -47,7 +49,7 @@
 
 " Speed range, must be positive.  Lower delay = faster.
 let s:mindelay = 1
-let s:maxdelay = 5
+let s:maxdelay = 10
 
 " Session file for preserving original window layout
 let s:session_file = tempname()
@@ -323,5 +325,5 @@ if !has('virtualedit') || !has('windows') || !has('syntax')
    echon 'Not enough features, need at least +virtualedit, +windows and +syntax'
    echohl None
 else
-   command! Matrix call Matrix()
+   command! Matrix noautocmd call Matrix()
 endif
