@@ -31,7 +31,6 @@
 " Didn't feel inspired enough to start using pico/nano, of course ^_^;
 "
 " 05/08/20 - disable auto commands when running for better performance
-" 05/08/20 - increase maxdelay for more varied output
 " 05/13/08 - disable cursorline, cursorcolumn and spell
 "            (thanks to Diederick Niehorster for the suggestion).
 " 12/21/06 - multiwindow support by S. Lockwood-Childs.
@@ -49,7 +48,7 @@
 
 " Speed range, must be positive.  Lower delay = faster.
 let s:mindelay = 1
-let s:maxdelay = 10
+let s:maxdelay = 5
 
 " Session file for preserving original window layout
 let s:session_file = tempname()
@@ -223,7 +222,8 @@ function! s:Init()
    let s:o_smd = &smd
    let s:o_so = &so
    let s:o_ve = &ve
-   set ch=1 ls=0 lz nosm nosmd siso=0 so=0 ve=all
+   let s:o_ei = &ei
+   set ch=1 ls=0 lz nosm nosmd siso=0 so=0 ve=all ei=all
 
    " Initialize PRNG
    let b:seed = localtime()
@@ -289,7 +289,8 @@ function! s:Cleanup()
    let &smd = s:o_smd
    let &so = s:o_so
    let &ve = s:o_ve
-   unlet s:o_ch s:o_ls s:o_lz s:o_siso s:o_sm s:o_smd s:o_so s:o_ve
+   let &ei = s:o_ei
+   unlet s:o_ch s:o_ls s:o_lz s:o_siso s:o_sm s:o_smd s:o_so s:o_ve s:o_ei
 
    " Restore old buffers
    exec 'source ' . s:session_file
@@ -325,5 +326,5 @@ if !has('virtualedit') || !has('windows') || !has('syntax')
    echon 'Not enough features, need at least +virtualedit, +windows and +syntax'
    echohl None
 else
-   command! Matrix noautocmd call Matrix()
+   command! Matrix call Matrix()
 endif
