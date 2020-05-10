@@ -3,11 +3,12 @@
 " Matrix screensaver for VIM.
 "
 "Usage:
-" After loading the script, use :Matrix to start.
+" After loading the script, use   :Matrix [mindelay maxdelay]   to start.
+"    mindelay defaults to 1.
+"    maxdelay defaults to 5.
+"    You must provide values for both or neither. Adjust these to match
+"    your machine speed and window size. Lower is faster.
 " Press any key a few times to exit.
-"
-" You will need to edit s:mindelay and s:maxdelay below to match your
-" machine speed and window size.
 "
 "Known Issues:
 " Sometimes you need to press keys a few times to exit instead of just
@@ -30,6 +31,7 @@
 " Inspired by cmatrix...
 " Didn't feel inspired enough to start using pico/nano, of course ^_^;
 "
+" 05/10/20 - make min/max delay user-specifiable through command args
 " 05/08/20 - disable auto commands when running for better performance
 " 05/13/08 - disable cursorline, cursorcolumn and spell
 "            (thanks to Diederick Niehorster for the suggestion).
@@ -44,11 +46,6 @@
 " 01/26/05 - initial version
 "
 " This script is released under MIT license, see license.txt
-
-
-" Speed range, must be positive.  Lower delay = faster.
-let s:mindelay = 1
-let s:maxdelay = 5
 
 " Session file for preserving original window layout
 let s:session_file = tempname()
@@ -301,7 +298,28 @@ function! s:Cleanup()
    let c = getchar(0)
 endfunction
 
-function! Matrix()
+function! s:ReadArgs(args)
+   if len(a:args) == 0
+      let [s:mindelay,s:maxdelay] = [1,5]
+      return 0
+   endif
+   if len(a:args) == 2
+      let [s:mindelay,s:maxdelay] = sort(map(copy(a:args), 'str2nr(v:val)'), 'N')
+      if s:mindelay > 0 && s:maxdelay > s:mindelay
+         return 0
+      endif
+   endif
+   return 1
+endfunction
+
+function! Matrix(...)
+   if s:ReadArgs(a:000)
+      echohl ErrorMsg
+      echon 'ERROR! Optional arguments must be two positive integers. Defaults are 1 and 5.'
+      echohl None
+      return
+   endif
+
    if s:Init()
       echohl ErrorMsg
       echon 'Can not create window'
@@ -326,5 +344,5 @@ if !has('virtualedit') || !has('windows') || !has('syntax')
    echon 'Not enough features, need at least +virtualedit, +windows and +syntax'
    echohl None
 else
-   command! Matrix call Matrix()
+   command! -nargs=* Matrix call Matrix(<f-args>)
 endif
