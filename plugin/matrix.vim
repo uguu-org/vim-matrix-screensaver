@@ -301,18 +301,21 @@ endfunction
 function! s:ReadArgs(args)
    if len(a:args) == 0
       let [s:mindelay,s:maxdelay] = [1,5]
-  elseif len(a:args) == 2
-      let [s:mindelay,s:maxdelay] = sort(map(copy(a:args), 'abs(str2nr(v:val))'),'N')
-   else
-      return 1
+      return 0
    endif
-   return 0
+   if len(a:args) == 2
+      let [s:mindelay,s:maxdelay] = sort(map(copy(a:args), 'str2nr(v:val)'), 'N')
+      if s:mindelay > 0 && s:maxdelay > s:mindelay
+         return 0
+      endif
+   endif
+   return 1
 endfunction
 
 function! Matrix(...)
    if s:ReadArgs(a:000)
       echohl ErrorMsg
-      echon 'Invalid arguments. :Matrix [mindelay maxdelay]'
+      echon 'ERROR! Optional arguments must be two positive integers. Defaults are 1 and 5.'
       echohl None
       return
    endif
