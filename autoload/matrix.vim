@@ -181,6 +181,7 @@ function! s:Init(type)
    endif
 
    setl bh=delete bt=nofile ma nolist nonu noro noswf tw=0 nowrap
+   setl norelativenumber nonumber
 
    " Set GUI options
    if has('gui')
